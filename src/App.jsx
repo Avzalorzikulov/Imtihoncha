@@ -1,15 +1,36 @@
-import { useState } from 'react'
-import './App.css'
-import { createBrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from './Components/Home/Home'
-import Item from "./Components/Item/Item"
-import Popular from "./Components/Popular/Popular"
-import Toprated from "./Components/Toprated/Toprated"
-import Upcoming from "./Components/Upcoming/Upcoming"
-import Header from './Components/Header/Header'
-
-
+import { useState, useEffect } from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useParams,
+} from "react-router-dom";
+import "./App.css";
+import Home from "./components/Home/Home";
+import Popular from "./Components/Popular/Popular";
+import TopRated from "./Components/Toprated/Toprated";
+import UpComing from "./Components/Upcoming/Upcoming";
 function App() {
+  const popular = async () => {
+    const response = await fetch(
+      "https://api.themoviedb.org/3/movie/popular?api_key=17f1ceadcf3767a35e55dd6204800668"
+    );
+    const data = await response.json();
+    return data;
+  };
+  const toprated = async () => {
+    const response = await fetch(
+      "https://api.themoviedb.org/3/movie/top_rated?api_key=17f1ceadcf3767a35e55dd6204800668"
+    );
+    const data = await response.json();
+    return data;
+  };
+  const upcoming = async () => {
+    const response = await fetch(
+      "https://api.themoviedb.org/3/movie/upcoming?api_key=17f1ceadcf3767a35e55dd6204800668"
+    );
+    const data = await response.json();
+    return data;
+  };
 
   const router = createBrowserRouter([
     {
@@ -17,39 +38,26 @@ function App() {
       element: <Home />,
     },
     {
-      path: "/users",
+      path: "/popular",
       element: <Popular />,
-      loader: Popular,
+      loader: popular,
     },
     {
-      path: "/movies",
-      element: <Toprated />,
-      loader: Toprated,
+      path: "/toprated",
+      element: <TopRated />,
+      loader: toprated,
     },
     {
-      path: "/movies/upcoming",
-      element: <Upcoming />,
-      loader: Upcoming,
+      path: "/upcoming",
+      element: <UpComing />,
+      loader: upcoming,
     },
-    {
-      path: "/movies/:id",
-      element: <Item />,
-    },
-
-    
-    
-    
   ]);
   return (
-    <BrowserRouter>
-    <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/item/:id" element={<Item />} />
-        <Route path="/popular" element={<Popular />} />
-        <Route path="/toprated" element={<Toprated />} />
-        <Route path="/upcoming" element={<Upcoming />} />
-      </Routes>
-    </BrowserRouter>
-  )
-export default App
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
+}
+
+export default App;

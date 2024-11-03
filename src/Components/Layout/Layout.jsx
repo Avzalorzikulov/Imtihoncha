@@ -1,14 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import "./UpComing.css";
 import Header from "../Header/Header";
-import Item from "../Item/Item";
-export default function UpComing() {
+import { Outlet } from "react-router-dom";
+function Layout() {
   return (
     <div>
       <Header />
-      <h1>Upcoming Movies</h1>
-      <Item />
+      <Outlet />
     </div>
   );
 }
+export default Layout;
